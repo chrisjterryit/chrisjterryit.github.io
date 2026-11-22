@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Christopher Terry | Technical Troubleshooter &amp; Safety Trainer</title>
+<meta name="description" content="Christopher Terry, Garland TX (DFW). Technical troubleshooter and safety trainer: systems diagnostics, root cause analysis and procedures people actually follow.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Christopher Terry | Technical Troubleshooter & Safety Trainer">
+<meta property="og:description" content="Systems diagnostics, root cause analysis and procedures people actually follow. Garland, TX (DFW).">
+<meta name="theme-color" content="#14213D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  /* Palette: navy (trust, authority) + ANSI safety orange #FF7900 (Z535) as accent.
+     Orange is only used on navy, as a button fill with navy text, or as decoration. */
+  :root {
+    --navy: #14213D;
+    --navy-soft: #C9D3E0;   /* light text on navy: 10.6:1 */
+    --orange: #FF7900;      /* ANSI safety orange */
+    --orange-text: #B24A00; /* orange-family text on light backgrounds: 4.8–5.4:1 */
+    --link: #0B5CAD;
+    --text: #1F2933;
+    --muted: #4A5563;
+    --bg: #FFFFFF;
+    --alt: #EEF2F6;
+    --line: #D5DCE5;
+    --head: "Barlow Semi Condensed", "Arial Narrow", Arial, sans-serif;
+    --body: "Source Sans 3", "Segoe UI", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: 72px; }
+  @media (max-width: 760px) { html { scroll-padding-top: 125px; } }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--body); font-size: 18px; line-height: 1.65; }
+  a { color: var(--link); font-weight: 600; }
+  a:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+
+  .skip {
+    position: fixed; top: 1rem; left: 1rem; z-index: 100;
+    background: var(--navy); color: #fff; padding: .5rem 1rem;
+    transform: translateY(-200%);
+  }
+  .skip:focus { transform: translateY(0); }
+
+  /* Navigation */
+  header.nav { position: sticky; top: 0; z-index: 50; background: var(--navy); border-bottom: 4px solid var(--orange); }
+  .nav-inner { max-width: 1100px; margin: 0 auto; padding: .7rem 1.25rem; display: flex; align-items: center; gap: 1rem; justify-content: space-between; }
+  .brand { font-family: var(--head); font-weight: 700; font-size: 1.25rem; color: #fff; text-decoration: none; letter-spacing: .02em; white-space: nowrap; }
+  nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 1.25rem; }
+  nav a { font-family: var(--head); font-weight: 600; font-size: 16px; letter-spacing: .06em; text-transform: uppercase; color: var(--navy-soft); text-decoration: none; white-space: nowrap; }
+  nav a:hover { color: #fff; text-decoration: underline; text-decoration-color: var(--orange); text-underline-offset: 4px; }
+  @media (max-width: 760px) {
+    .nav-inner { flex-direction: column; align-items: flex-start; gap: .3rem; padding: .55rem 1rem; }
+    nav { width: 100%; }
+    nav ul { gap: .35rem 1.1rem; flex-wrap: wrap; }
+    nav a { font-size: 15px; }
+  }
+
+  /* Bands (explicit classes, not DOM order) */
+  section { padding: 80px 1.25rem; }
+  .band-alt { background: var(--alt); }
+  .band-alt .card { background: var(--bg); }
+  .band .card { background: var(--alt); }
+  .wrap { max-width: 1000px; margin: 0 auto; }
+  .narrow { max-width: 720px; margin: 0 auto; }
+
+  h1, h2, h3, h4 { font-family: var(--head); color: var(--navy); line-height: 1.2; }
+  h2 { font-weight: 700; font-size: clamp(1.9rem, 4vw, 2.4rem); text-align: center; margin: 0 0 .5rem; }
+  h2::after { content: ""; display: block; width: 64px; height: 4px; background: var(--orange); margin: .75rem auto 2.5rem; }
+  h3 { font-weight: 600; font-size: 1.4rem; margin: 0 0 .4rem; }
+  h4 { font-weight: 600; font-size: 1.2rem; margin: 0 0 .4rem; }
+  .eyebrow { font-family: var(--head); color: var(--orange-text); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; font-size: .95rem; margin: 0 0 .25rem; }
+  .meta { color: var(--muted); font-size: 15px; }
+  .mt { margin-top: 1.25rem; }
+
+  /* Hero */
+  #hero { background: var(--navy); color: #fff; text-align: center; padding: 96px 1.25rem; }
+  #hero h1 { color: #fff; font-weight: 700; font-size: clamp(2.6rem, 7vw, 4rem); letter-spacing: .01em; margin: 0 0 .75rem; }
+  .headline { font-family: var(--head); font-weight: 600; color: var(--orange); font-size: clamp(1.15rem, 2.8vw, 1.5rem); max-width: 780px; margin: 0 auto 1.5rem; }
+  .summary { max-width: 680px; margin: 0 auto 2rem; color: var(--navy-soft); }
+  .btn { display: inline-block; background: var(--orange); color: var(--navy); font-family: var(--head); font-weight: 700; letter-spacing: .06em; font-size: 17px; text-transform: uppercase; text-decoration: none; padding: .8rem 1.8rem; border-radius: 3px; }
+  .btn:hover { background: #FF9433; }
+  #hero .meta { color: var(--navy-soft); margin-top: 1.25rem; }
+
+  /* Quotes */
+  figure.quote { margin: 0 0 2.5rem; text-align: center; }
+  figure.quote blockquote { margin: 0; font-style: italic; font-size: 1.2rem; color: var(--navy); }
+  figure.quote figcaption { margin-top: .4rem; font-size: 15px; color: var(--muted); }
+  .story-block { padding: 1.5rem 0; border-top: 1px solid var(--line); }
+  .story-block:first-of-type { border-top: 0; }
+
+  /* Cards */
+  .card { border: 1px solid var(--line); border-left: 4px solid var(--navy); border-radius: 4px; padding: 1.4rem 1.5rem; }
+  .stack { display: grid; gap: 1.25rem; }
+  .job-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .25rem 1rem; align-items: baseline; }
+  .job-head h3 { margin: 0; }
+  .org { margin: .1rem 0 .6rem; font-weight: 700; }
+  ul.bullets { margin: 0; padding-left: 1.2rem; }
+  ul.bullets li { margin-bottom: .35rem; }
+  .grid-2, .grid-3 { display: grid; gap: 1.25rem; grid-template-columns: 1fr; }
+  @media (min-width: 760px) { .grid-2 { grid-template-columns: 1fr 1fr; } .grid-3 { grid-template-columns: 1fr 1fr 1fr; } }
+  .feature { max-width: 720px; margin: 0 auto 1.25rem; text-align: center; border-left-width: 1px; border-top: 4px solid var(--orange); }
+  .feature ul { list-style: none; padding: 0; margin: 0; }
+
+  /* Projects */
+  .project-title { text-align: center; max-width: 820px; margin: 0 auto 2rem; }
+  .project-title h3 { font-size: clamp(1.45rem, 3vw, 1.8rem); }
+  ol.steps { margin: 0; padding-left: 1.3rem; }
+  ol.steps li { margin-bottom: .5rem; }
+  .finding { border-left: 4px solid var(--orange); background: var(--bg); padding: .6rem 1rem; margin: .9rem 0 0; }
+  .divider { height: 1px; background: var(--line); margin: 3.5rem auto; max-width: 600px; }
+
+  /* Contact */
+  #contact { text-align: center; }
+  .contact-list { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: .5rem; }
+  footer { text-align: center; padding: 1.5rem 1rem; background: var(--navy); color: var(--navy-soft); font-size: 15px; border-top: 4px solid var(--orange); }
+
+  /* Print / save as PDF */
+  @media print {
+    header.nav, .skip, .btn { display: none !important; }
+    body { font-size: 11.5pt; color: #000; }
+    section { padding: 18pt 0; }
+    #hero, footer { background: #fff !important; color: #000; }
+    #hero h1, #hero .summary, #hero .meta, footer { color: #000 !important; }
+    .headline { color: var(--navy) !important; }
+    .band-alt, .band .card, .band-alt .card { background: #fff !important; }
+    .card { break-inside: avoid; }
+    h2::after { margin-bottom: 12pt; }
+    a { color: #000; text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#hero">Christopher Terry</a>
+    <nav aria-label="Sections">
+      <ul>
+        <li><a href="#story">Story</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#project">Projects</a></li>
+        <li><a href="#values">Values</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- 1. HERO -->
+<section id="hero" aria-labelledby="hero-title">
+  <div class="wrap">
+    <h1 id="hero-title">Christopher Terry</h1>
+    <p class="headline">Technical Troubleshooter &amp; Safety Trainer | Systems Diagnostics, Root Cause Analysis &amp; Procedures People Actually Follow</p>
+    <p class="summary">I find the real cause behind problems that keep coming back, then turn what I learn into procedures people can actually follow. Thirteen years as a safety manager training 400+ workers, followed by eight years diagnosing automotive and industrial equipment.</p>
+    <a class="btn" href="#contact">Contact Me</a>
+    <p class="meta">Garland, TX · Dallas–Fort Worth</p>
+  </div>
+</section>
+
+<!-- 2. PROFESSIONAL STORY -->
+<section id="story" class="band-alt" aria-labelledby="story-title">
+  <div class="narrow">
+    <h2 id="story-title">Professional Story</h2>
+    <figure class="quote">
+      <blockquote><p>“I live in a world of downstreams and hidden correspondence.”</p></blockquote>
+      <figcaption>Christopher Terry</figcaption>
+    </figure>
+    <div class="story-block">
+      <p class="eyebrow">Past</p>
+      <p>For thirteen years I ran safety programs at Facility Solutions Group, delivering OSHA outreach training to 400+ people and writing the lockout/tagout procedures and job safety plans that crews used on site. I then moved into hands-on repair: automotive mechanical and electrical systems, and later field service on industrial collision-repair equipment, where I traced repeat failures back to their source.</p>
+    </div>
+    <div class="story-block">
+      <p class="eyebrow">Present</p>
+      <p>In 2026 I completed the Specialisterne USA Academy (IT &amp; AI Fundamentals). It added IT support and AI tools to the habit I already had: isolate, measure, verify, document.</p>
+    </div>
+    <div class="story-block">
+      <p class="eyebrow">Future</p>
+      <p>I'm looking for work where finding root causes and writing clear procedures matter: reliability and field service, product validation and testing, safety training, data center facilities, or technical support in the Dallas–Fort Worth area.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3. EXPERIENCE & EDUCATION -->
+<section id="experience" class="band" aria-labelledby="exp-title">
+  <div class="wrap">
+    <h2 id="exp-title">Experience &amp; Education</h2>
+    <div class="stack">
+      <article class="card">
+        <div class="job-head"><h3>Service Technician</h3><span class="meta">Jan 2023 – Sep 2026</span></div>
+        <p class="org">Car-O-Liner Southwest · DFW, TX</p>
+        <ul class="bullets">
+          <li>Diagnosed and repaired industrial collision-repair equipment, including hydraulic, electrical and cooling systems, at customer sites.</li>
+          <li>Traced recurring field failures to their root causes and trained customer technicians to prevent them.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <div class="job-head"><h3>Repair Technician</h3><span class="meta">Mar 2018 – Jan 2023</span></div>
+        <p class="org">All Automotive TX · Midlothian, TX</p>
+        <ul class="bullets">
+          <li>Performed multi-point safety, mechanical and electrical inspections using structured checklists.</li>
+          <li>Turned OEM technical data (Identifix, ALLDATA) into step-by-step service plans.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <div class="job-head"><h3>Safety Manager</h3><span class="meta">May 2003 – Dec 2016</span></div>
+        <p class="org">Facility Solutions Group · Dallas, TX</p>
+        <ul class="bullets">
+          <li>Delivered OSHA 10- and 30-Hour Outreach training to 400+ personnel as an OSHA 500 authorized trainer.</li>
+          <li>Built and ran company OSHA, EPA and NFPA 70E electrical safety compliance programs.</li>
+          <li>Wrote lockout/tagout procedures, job-specific safety plans (JSSP/JHA) and onboarding curricula.</li>
+          <li>Led post-incident root-cause investigations and on-site safety audits.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <div class="job-head"><h3>IT &amp; AI Fundamentals</h3><span class="meta">Sep – Nov 2026</span></div>
+        <p class="org">Specialisterne USA Academy · Remote</p>
+        <ul class="bullets">
+          <li>Completed training in IT support, troubleshooting and AI fundamentals.</li>
+          <li>Designed a bottom-up framework for the program's portfolio project (see Projects).</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h3>Coursework</h3>
+        <ul class="bullets">
+          <li>Automotive Refinishing, Tarrant County College <span class="meta">(2017–2019)</span></li>
+          <li>General Studies, University of Texas at Arlington <span class="meta">(2016–2017)</span></li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 4. SKILLS & TRAINING -->
+<section id="skills" class="band-alt" aria-labelledby="skills-title">
+  <div class="wrap">
+    <h2 id="skills-title">Skills &amp; Training</h2>
+    <div class="card feature">
+      <h3>Credentials</h3>
+      <ul>
+        <li>Specialisterne USA Academy: IT &amp; AI Fundamentals <span class="meta">(2026)</span></li>
+        <li>OSHA 500 Authorized Trainer, Facility Solutions Group <span class="meta">(2003–2016)</span></li>
+        <li>NFPA 70E Electrical Safety</li>
+      </ul>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Technical Skills</h3>
+        <ul class="bullets">
+          <li>Root cause analysis</li>
+          <li>Mechanical, electrical &amp; hydraulic diagnostics</li>
+          <li>Cooling system and flow troubleshooting</li>
+          <li>Lockout/tagout &amp; electrical safety</li>
+          <li>SOPs, runbooks &amp; technical documentation</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Professional Skills</h3>
+        <ul class="bullets">
+          <li>Training adults (400+ trained)</li>
+          <li>Pattern recognition across repeat failures</li>
+          <li>Hazard analysis (JHA / JSSP)</li>
+          <li>Clear written procedures</li>
+          <li>AI tools for research and documentation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. PROJECTS -->
+<section id="project" class="band" aria-labelledby="project-title">
+  <div class="wrap">
+    <h2 id="project-title">Projects</h2>
+
+    <div class="project-title">
+      <p class="eyebrow">Case Study · Field Diagnostics</p>
+      <h3>Fix the System, Not the Part: Ending Repeat Overheating on Water-Cooled Welders</h3>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h4>Problem</h4>
+        <p>Every Texas summer, service calls came in for water-cooled welders overheating. The standard fix was a new coolant pump or welding cable.</p>
+      </div>
+      <div class="card">
+        <h4>Why It Mattered</h4>
+        <p>Each call meant downtime, and customers were paying for $1,500 pumps and $3,000 cables that often didn't solve it.</p>
+      </div>
+    </div>
+
+    <div class="card mt">
+      <h4>Initial View</h4>
+      <p>The common belief was that the pump was underpowered. My hypothesis: something in the system was robbing the pump of its output.</p>
+    </div>
+
+    <div class="card mt">
+      <h4>Troubleshooting</h4>
+      <ol class="steps">
+        <li>Noticed the pumps were <em>chattering</em>, the sound of a pump fighting resistance, which others had missed.</li>
+        <li>Isolated sections of the cooling loop and measured the flow rate in each.</li>
+        <li>Used the welder's own data to calculate where the restriction was greatest.</li>
+      </ol>
+      <p class="finding"><strong>Design finding:</strong> The pump met spec on paper but had no margin for field conditions. Ordinary wear pushed it past its limit. Pre-market field testing would have shown the need for a higher-capacity pump.</p>
+    </div>
+
+    <div class="card mt">
+      <h4>Root Causes</h4>
+      <ul class="bullets">
+        <li>Hoses twisting and kinking from handling, the way a power cord coils when it's always twisted in one direction</li>
+        <li>Height difference between the pump and the torch</li>
+        <li>Air trapped in the lines</li>
+        <li>Worn-out coolant that had lost its cooling capacity</li>
+      </ul>
+    </div>
+
+    <div class="card mt">
+      <h4>Fix &amp; Verification</h4>
+      <p>Untwisted or rerouted hoses, purged lines with shop air and replaced old coolant. Then I taught the shop technicians what was really causing the overheating and the limits of their equipment, so they could prevent it themselves instead of waiting for a service call.</p>
+    </div>
+
+    <div class="grid-2 mt">
+      <div class="card">
+        <h4>Role of AI</h4>
+        <p>Later used AI to explore a lower-resistance cooling design concept.</p>
+      </div>
+      <div class="card">
+        <h4>Lesson</h4>
+        <p>You don't treat a smoker's cough with cough syrup. You get them to stop smoking. Find the real cause. Testing a product under real-world conditions before launch catches what a spec sheet can't.</p>
+      </div>
+    </div>
+
+    <div class="divider" role="presentation"></div>
+
+    <div class="project-title">
+      <p class="eyebrow">Training Design · Specialisterne USA Academy</p>
+      <h3>A Bottom-Up Path Through the Portfolio Course</h3>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <h4>Problem</h4>
+        <p>The course built the portfolio site section by section and showed the finished page only near the end. For learners who need to see the whole structure first, that made it hard to know how the parts fit.</p>
+      </div>
+      <div class="card">
+        <h4>What I Did</h4>
+        <p>Mapped the course workbook into a structure I could see whole, then wrote an opt-in second path: deploy seven empty, labeled sections on day one and fill them as lessons arrive.</p>
+      </div>
+      <div class="card">
+        <h4>What It Includes</h4>
+        <p>A manual fallback if the AI builder fails, two quality gates for case studies, a three-question Friday check-in, and the same graduation standards as the main path.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. WORK STYLE & VALUES -->
+<section id="values" class="band-alt" aria-labelledby="values-title">
+  <div class="wrap">
+    <h2 id="values-title">Work Style &amp; Values</h2>
+    <div class="narrow">
+      <figure class="quote">
+        <blockquote><p>“I perceive patterns, including patterns that link apparently contrary or unrelated elements. I register the structural relationships, the anomalies, and the consistencies that are not obvious on the surface. I do not claim to know what those patterns mean. Perception and interpretation remain separate: the pattern is visible; any narrative or causal meaning assigned to it is a subsequent and distinct step that I do not automatically take.”</p></blockquote>
+        <figcaption>Christopher Terry</figcaption>
+      </figure>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <h3>Find the Real Cause</h3>
+        <p>A repeat failure is a pattern, not bad luck. I keep going until the cause is found, not just the symptom.</p>
+      </div>
+      <div class="card">
+        <h3>Precision</h3>
+        <p>Clear steps, exact wording, nothing left to guess. A procedure only works if the next person can follow it.</p>
+      </div>
+      <div class="card">
+        <h3>Safety First</h3>
+        <p>Thirteen years of lockout/tagout and electrical safety taught me to verify before I touch anything.</p>
+      </div>
+    </div>
+    <div class="card mt">
+      <h3>How I Work Best</h3>
+      <ul class="bullets">
+        <li>A live demonstration first, followed by written step-by-step procedures</li>
+        <li>Clear, specific goals and well-defined task boundaries</li>
+        <li>A focused, lower-noise workspace</li>
+        <li>Time to map a system before acting on it</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 7. CONTACT -->
+<section id="contact" class="band" aria-labelledby="contact-title">
+  <div class="narrow">
+    <h2 id="contact-title">Contact</h2>
+    <p>Open to reliability, field service, product testing, safety training, data center facilities and technical support roles in the Dallas–Fort Worth area.</p>
+    <a class="btn" href="mailto:chrisjterry.it@gmail.com">Email Me</a>
+    <ul class="contact-list">
+      <li><a href="mailto:chrisjterry.it@gmail.com">chrisjterry.it@gmail.com</a></li>
+      <li><a href="https://www.linkedin.com/in/chris-terry-safetytr">linkedin.com/in/chris-terry-safetytr</a></li>
+      <li><a href="https://github.com/chrisjterryit">github.com/chrisjterryit</a></li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer>Christopher Terry · Garland, TX</footer>
+</body>
+</html>

@@ -111,6 +111,19 @@
   .finding { border-left: 4px solid var(--orange); background: var(--bg); padding: .6rem 1rem; margin: .9rem 0 0; }
   .divider { height: 1px; background: var(--line); margin: 3.5rem auto; max-width: 600px; }
 
+  /* Cooling-loop diagram */
+  .loop { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: 2.25rem; grid-template-columns: 1fr; }
+  .loop li { position: relative; background: var(--bg); border: 1px solid var(--line); border-top: 4px solid var(--navy); border-radius: 0; padding: .9rem 1rem; text-align: center; }
+  .loop li.resist { border-top-color: var(--orange); }
+  .loop strong { display: block; font-family: var(--head); font-size: 1.15rem; color: var(--navy); }
+  .loop .tag { display: block; margin-top: .2rem; font-size: 14px; font-weight: 700; color: var(--orange-text); }
+  .loop li:not(:last-child)::after { content: "↓" / ""; position: absolute; left: 50%; bottom: -2rem; transform: translateX(-50%); color: var(--navy); font-size: 1.3rem; font-weight: 700; }
+  @media (min-width: 760px) {
+    .loop { grid-template-columns: repeat(4, 1fr); gap: 1.75rem; }
+    .loop li:not(:last-child)::after { content: "→" / ""; left: auto; right: -1.45rem; bottom: auto; top: 50%; transform: translateY(-50%); }
+  }
+  .loop-return { text-align: center; margin: 1.25rem 0 0; color: var(--muted); font-size: 15px; }
+
   /* Contact */
   #contact { text-align: center; }
   .contact-list { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: .5rem; }
@@ -307,6 +320,18 @@
         <li>Used the welder's own data to calculate where the restriction was greatest.</li>
       </ol>
       <p class="finding"><strong>Design finding:</strong> The pump met spec on paper but had no margin for field conditions. Ordinary wear pushed it past its limit. Pre-market field testing would have shown the need for a higher-capacity pump.</p>
+    </div>
+
+    <div class="card mt">
+      <h4>The Cooling Loop</h4>
+      <p>Where the pump's output was being lost. Orange marks the points that add resistance.</p>
+      <ol class="loop" aria-label="Coolant path from pump to torch">
+        <li><strong>Pump</strong>Small diaphragm pump</li>
+        <li class="resist"><strong>Hoses</strong>Twist and kink with use<span class="tag">Adds resistance</span></li>
+        <li class="resist"><strong>Height &amp; Air</strong>Lift to the torch, trapped air<span class="tag">Adds resistance</span></li>
+        <li><strong>Torch</strong>Needs steady coolant flow</li>
+      </ol>
+      <p class="loop-return">↻ Coolant returns to the pump. Worn coolant cools less on every pass.</p>
     </div>
 
     <div class="card mt">

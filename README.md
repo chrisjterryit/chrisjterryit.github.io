@@ -1,6 +1,6 @@
 # chrisjterryit.github.io
 
-Portfolio site for Christopher Terry: technical troubleshooter and safety trainer (Garland, TX / DFW).
+Portfolio site for Christopher Terry: technical troubleshooter and safety trainer (Grapevine, TX / DFW).
 
 Live site: https://chrisjterryit.github.io
 
